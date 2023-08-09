@@ -1,12 +1,21 @@
 import os
-
+from datetime import datetime
 
 def logger(path):
-    ...
     
     def __logger(old_function):
         def new_function(*args, **kwargs):
-            ...
+
+            call_time = datetime.strftime(datetime.now(), "%d.%m.%Y-%H:%M:%S")
+            f_name = old_function.__name__
+            f_args = f"{args=}; {kwargs=}"
+
+            res = old_function(*args, **kwargs)
+
+            with open(path, "a") as f:
+                f.write(f"{call_time}: CALLED {f_name}, {f_args} -> {res}\n")
+            
+            return res
 
         return new_function
 
